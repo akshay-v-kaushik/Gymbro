@@ -1,19 +1,21 @@
-import express from 'express';
-import Pool from  './db.js';
+//import express from 'express';
+import Pool from  '../db.js';
+import Router from 'express';
 
-const app = express();
+//const app = express();
 const pool = Pool;
+const router = Router();
 
-app.use(express.json())
-app.listen(5000, ()=>{
-    console.log("Server started successfully!\n Server running on http://localhost:5000")
-});
+// app.use(express.json())
+// app.listen(5000, ()=>{
+//     console.log("Server started successfully!\n Server running on http://localhost:5000")
+// });
 
 // insert new row
-app.post("/Gymbro/exercise", async(req, res) => {
+router.post("/", async(req, res) => {
     try{
         const {exercise_id, e_name, e_difficulty, e_muscles}  = req.body;
-        const newTrainer = await pool.query(`INSERT INTO public."Exercise"(e_name, e_difficulty, e_muscles) \
+        const newTrainer = await pool.query(`INSERT INTO public."Exercises"(e_name, e_difficulty, e_muscles) \
         VALUES (($1), ($2), ($3)) returning *;`, [e_name, e_difficulty, e_muscles])
         res.json(newTrainer)
     }
@@ -24,9 +26,9 @@ app.post("/Gymbro/exercise", async(req, res) => {
 })
 
 // get all rows
-app.get("/Gymbro/exercise", async(req, res)=> {
+router.get("/", async(req, res)=> {
     try{
-        const allTrainers = await pool.query(`select * from "Exercise"`);
+        const allTrainers = await pool.query(`select * from "Exercises"`);
         res.json(allTrainers.rows)
 
     }
@@ -36,10 +38,10 @@ app.get("/Gymbro/exercise", async(req, res)=> {
 })
 
 // get specific row
-app.get("/Gymbro/exercise/:id", async(req, res)=> {
+router.get("/:id", async(req, res)=> {
     try{
         const {id} = req.params;
-        const allTrainers = await pool.query(`select * from "Exercise" where exercise_id = $1`, [id]);
+        const allTrainers = await pool.query(`select * from "Exercises" where exercise_id = $1`, [id]);
         res.json(allTrainers.rows)
     }
     catch(err){
@@ -48,10 +50,10 @@ app.get("/Gymbro/exercise/:id", async(req, res)=> {
 })
 
 // delete row
-app.delete("/Gymbro/exercise/:id", async(req, res)=> {
+router.delete("/:id", async(req, res)=> {
     try{
         const {id} = req.params;
-        const allTrainers = await pool.query(`delete from "Exercise" where exercise_id = $1 RETURNING *;`, [id]);
+        const allTrainers = await pool.query(`delete from "Exercises" where exercise_id = $1 RETURNING *;`, [id]);
         res.json(allTrainers)
     }
     catch(err){
@@ -60,15 +62,17 @@ app.delete("/Gymbro/exercise/:id", async(req, res)=> {
 })
 
 // update row
-app.put("/Gymbro/exercise/:id", async(req, res)=> {
+router.put("/:id", async(req, res)=> {
     try{
         const {exercise_id, e_name, e_difficulty, e_muscles}  = req.body;
         const {id} = req.params;
-        const allTrainers = await pool.query(`UPDATE "Exercise" SET e_name = ($1),  e_difficulty = ($2), \
+        const allTrainers = await pool.query(`UPDATE "Exercises" SET e_name = ($1),  e_difficulty = ($2), \
         e_muscles = ($3) WHERE exercise_id = ($4) RETURNING *;`, [e_name, e_difficulty, e_muscles, id]);
         res.json(allTrainers.rows);
     }
     catch(err){
         console.error(err.message);
     }
-})
+});
+
+export default router;

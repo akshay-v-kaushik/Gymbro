@@ -1,16 +1,12 @@
-import express from 'express';
-import Pool from  './db.js';
+import Pool from  '../db.js';
+import Router from 'express';
 
-const app = express();
 const pool = Pool;
+const router = Router();
 
-app.use(express.json())
-app.listen(5000, ()=>{
-    console.log("Server started successfully!\n Server running on http://localhost:5000")
-});
 
 // insert new row
-app.post("/Gymbro/customer", async(req, res) => {
+router.post("/", async(req, res) => {
     try{
         const {customer_id, c_name, c_dob, c_phone, c_weight, c_height, c_gender}  = req.body;
         const newTrainer = await pool.query(`INSERT INTO public."Customer"(c_name, c_dob, c_phone, c_weight, c_height, c_gender) \
@@ -24,7 +20,7 @@ app.post("/Gymbro/customer", async(req, res) => {
 })
 
 // get all rows
-app.get("/Gymbro/customer", async(req, res)=> {
+router.get("/", async(req, res)=> {
     try{
         const allTrainers = await pool.query(`select * from "Customer"`);
         res.json(allTrainers.rows)
@@ -36,7 +32,7 @@ app.get("/Gymbro/customer", async(req, res)=> {
 })
 
 // get specific row
-app.get("/Gymbro/customer/:id", async(req, res)=> {
+router.get("/:id", async(req, res)=> {
     try{
         const {id} = req.params;
         const allTrainers = await pool.query(`select * from "Customer" where customer_id = $1`, [id]);
@@ -48,7 +44,7 @@ app.get("/Gymbro/customer/:id", async(req, res)=> {
 })
 
 // delete row
-app.delete("/Gymbro/customer/:id", async(req, res)=> {
+router.delete("/:id", async(req, res)=> {
     try{
         const {id} = req.params;
         const allTrainers = await pool.query(`delete from "Customer" where customer_id = $1 RETURNING *;`, [id]);
@@ -60,7 +56,7 @@ app.delete("/Gymbro/customer/:id", async(req, res)=> {
 })
 
 // update row
-app.put("/Gymbro/customer/:id", async(req, res)=> {
+router.put("/:id", async(req, res)=> {
     try{
         const {customer_id, c_name, c_dob, c_phone, c_weight, c_height, c_gender}  = req.body;
         const {id} = req.params;
@@ -72,3 +68,5 @@ app.put("/Gymbro/customer/:id", async(req, res)=> {
         console.error(err.message);
     }
 })
+
+export default router;

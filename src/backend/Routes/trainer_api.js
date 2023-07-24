@@ -1,16 +1,18 @@
 import express from 'express';
-import Pool from  './db.js';
+import Pool from  '../db.js';
+import Router from 'express';
 
-const app = express();
+//const app = express();
 const pool = Pool;
+const router = Router();
 
-app.use(express.json())
-app.listen(5000, ()=>{
-    console.log("Server started successfully!\n Server running on http://localhost:5000")
-});
+// app.use(express.json())
+// app.listen(5000, ()=>{
+//     console.log("Server started successfully!\n Server running on http://localhost:5000")
+// });
 
 // insert new row
-app.post("/Gymbro/trainer", async(req, res) => {
+router.post("/", async(req, res) => {
     try{
         const {trainer_id, t_name, t_dob, t_phone, t_salary, t_gender}  = req.body;
         const newTrainer = await pool.query(`INSERT INTO public."Trainer"(t_name, t_dob, t_phone, t_salary, t_gender) \
@@ -24,7 +26,7 @@ app.post("/Gymbro/trainer", async(req, res) => {
 })
 
 // get all rows
-app.get("/Gymbro/trainer", async(req, res)=> {
+router.get("/", async(req, res)=> {
     try{
         const allTrainers = await pool.query(`select * from "Trainer"`);
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -37,7 +39,7 @@ app.get("/Gymbro/trainer", async(req, res)=> {
 })
 
 // get specific row
-app.get("/Gymbro/trainer/:id", async(req, res)=> {
+router.get("/:id", async(req, res)=> {
     try{
         const {id} = req.params;
         const allTrainers = await pool.query(`select * from "Trainer" where trainer_id = $1`, [id]);
@@ -49,7 +51,7 @@ app.get("/Gymbro/trainer/:id", async(req, res)=> {
 })
 
 // delete row
-app.delete("/Gymbro/trainer/:id", async(req, res)=> {
+router.delete("/:id", async(req, res)=> {
     try{
         const {id} = req.params;
         const allTrainers = await pool.query(`delete from "Trainer" where trainer_id = $1 RETURNING *;`, [id]);
@@ -61,7 +63,7 @@ app.delete("/Gymbro/trainer/:id", async(req, res)=> {
 })
 
 // update row
-app.put("/Gymbro/trainer/:id", async(req, res)=> {
+router.put("/:id", async(req, res)=> {
     try{
         const {trainer_id, t_name, t_dob, t_phone, t_salary, t_gender}  = req.body;
         const {id} = req.params;
@@ -73,3 +75,5 @@ app.put("/Gymbro/trainer/:id", async(req, res)=> {
         console.error(err.message);
     }
 })
+
+export default router;
