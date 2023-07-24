@@ -5,7 +5,7 @@
 -- Dumped from database version 15.3
 -- Dumped by pg_dump version 15.3
 
--- Started on 2023-07-24 20:19:31
+-- Started on 2023-07-24 22:06:13
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,18 +23,19 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 217 (class 1259 OID 16418)
+-- TOC entry 214 (class 1259 OID 16558)
 -- Name: Customer; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Customer" (
     customer_id integer NOT NULL,
-    c_name text NOT NULL,
+    c_firstname text NOT NULL,
     c_dob date NOT NULL,
     c_phone bigint,
     c_weight real NOT NULL,
     c_height real NOT NULL,
-    c_gender character varying(6)
+    c_gender character varying(6),
+    c_lastname text NOT NULL
 );
 
 
@@ -42,7 +43,7 @@ ALTER TABLE public."Customer" OWNER TO postgres;
 
 --
 -- TOC entry 3369 (class 0 OID 0)
--- Dependencies: 217
+-- Dependencies: 214
 -- Name: TABLE "Customer"; Type: COMMENT; Schema: public; Owner: postgres
 --
 
@@ -50,7 +51,7 @@ COMMENT ON TABLE public."Customer" IS 'table to store details of customer';
 
 
 --
--- TOC entry 216 (class 1259 OID 16417)
+-- TOC entry 215 (class 1259 OID 16563)
 -- Name: Customer_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -67,7 +68,7 @@ ALTER TABLE public."Customer_customer_id_seq" OWNER TO postgres;
 
 --
 -- TOC entry 3370 (class 0 OID 0)
--- Dependencies: 216
+-- Dependencies: 215
 -- Name: Customer_customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -75,7 +76,7 @@ ALTER SEQUENCE public."Customer_customer_id_seq" OWNED BY public."Customer".cust
 
 
 --
--- TOC entry 219 (class 1259 OID 16433)
+-- TOC entry 216 (class 1259 OID 16564)
 -- Name: Exercises; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -91,7 +92,7 @@ ALTER TABLE public."Exercises" OWNER TO postgres;
 
 --
 -- TOC entry 3371 (class 0 OID 0)
--- Dependencies: 219
+-- Dependencies: 216
 -- Name: TABLE "Exercises"; Type: COMMENT; Schema: public; Owner: postgres
 --
 
@@ -99,7 +100,7 @@ COMMENT ON TABLE public."Exercises" IS 'table to store list of various exercises
 
 
 --
--- TOC entry 218 (class 1259 OID 16432)
+-- TOC entry 217 (class 1259 OID 16569)
 -- Name: Exercises_exercise_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -116,7 +117,7 @@ ALTER TABLE public."Exercises_exercise_id_seq" OWNER TO postgres;
 
 --
 -- TOC entry 3372 (class 0 OID 0)
--- Dependencies: 218
+-- Dependencies: 217
 -- Name: Exercises_exercise_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -124,7 +125,7 @@ ALTER SEQUENCE public."Exercises_exercise_id_seq" OWNED BY public."Exercises".ex
 
 
 --
--- TOC entry 223 (class 1259 OID 16451)
+-- TOC entry 218 (class 1259 OID 16570)
 -- Name: Orders; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -145,7 +146,7 @@ ALTER TABLE public."Orders" OWNER TO postgres;
 
 --
 -- TOC entry 3373 (class 0 OID 0)
--- Dependencies: 223
+-- Dependencies: 218
 -- Name: TABLE "Orders"; Type: COMMENT; Schema: public; Owner: postgres
 --
 
@@ -153,7 +154,7 @@ COMMENT ON TABLE public."Orders" IS 'table to store the orders made by customers
 
 
 --
--- TOC entry 222 (class 1259 OID 16450)
+-- TOC entry 219 (class 1259 OID 16575)
 -- Name: Orders_o_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -170,7 +171,7 @@ ALTER TABLE public."Orders_o_id_seq" OWNER TO postgres;
 
 --
 -- TOC entry 3374 (class 0 OID 0)
--- Dependencies: 222
+-- Dependencies: 219
 -- Name: Orders_o_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -178,7 +179,7 @@ ALTER SEQUENCE public."Orders_o_id_seq" OWNED BY public."Orders".o_id;
 
 
 --
--- TOC entry 221 (class 1259 OID 16442)
+-- TOC entry 220 (class 1259 OID 16576)
 -- Name: Subscriptions; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -195,7 +196,7 @@ ALTER TABLE public."Subscriptions" OWNER TO postgres;
 
 --
 -- TOC entry 3375 (class 0 OID 0)
--- Dependencies: 221
+-- Dependencies: 220
 -- Name: TABLE "Subscriptions"; Type: COMMENT; Schema: public; Owner: postgres
 --
 
@@ -204,7 +205,7 @@ COMMENT ON TABLE public."Subscriptions" IS 'table to store various subscription 
 
 
 --
--- TOC entry 220 (class 1259 OID 16441)
+-- TOC entry 221 (class 1259 OID 16581)
 -- Name: Subscriptions_s_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -221,7 +222,7 @@ ALTER TABLE public."Subscriptions_s_id_seq" OWNER TO postgres;
 
 --
 -- TOC entry 3376 (class 0 OID 0)
--- Dependencies: 220
+-- Dependencies: 221
 -- Name: Subscriptions_s_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -229,17 +230,18 @@ ALTER SEQUENCE public."Subscriptions_s_id_seq" OWNED BY public."Subscriptions".s
 
 
 --
--- TOC entry 215 (class 1259 OID 16409)
+-- TOC entry 222 (class 1259 OID 16582)
 -- Name: Trainer; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Trainer" (
     trainer_id integer NOT NULL,
-    t_name text NOT NULL,
     t_dob date NOT NULL,
     t_phone bigint,
     t_gender character varying(6) NOT NULL,
-    t_salary double precision
+    t_salary double precision,
+    t_firstname text NOT NULL,
+    t_lastname text NOT NULL
 );
 
 
@@ -247,7 +249,7 @@ ALTER TABLE public."Trainer" OWNER TO postgres;
 
 --
 -- TOC entry 3377 (class 0 OID 0)
--- Dependencies: 215
+-- Dependencies: 222
 -- Name: TABLE "Trainer"; Type: COMMENT; Schema: public; Owner: postgres
 --
 
@@ -255,7 +257,7 @@ COMMENT ON TABLE public."Trainer" IS 'table to store details of trainers';
 
 
 --
--- TOC entry 214 (class 1259 OID 16408)
+-- TOC entry 223 (class 1259 OID 16587)
 -- Name: Trainer_trainer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -272,7 +274,7 @@ ALTER TABLE public."Trainer_trainer_id_seq" OWNER TO postgres;
 
 --
 -- TOC entry 3378 (class 0 OID 0)
--- Dependencies: 214
+-- Dependencies: 223
 -- Name: Trainer_trainer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -280,7 +282,7 @@ ALTER SEQUENCE public."Trainer_trainer_id_seq" OWNED BY public."Trainer".trainer
 
 
 --
--- TOC entry 3194 (class 2604 OID 16421)
+-- TOC entry 3193 (class 2604 OID 16588)
 -- Name: Customer customer_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -288,7 +290,7 @@ ALTER TABLE ONLY public."Customer" ALTER COLUMN customer_id SET DEFAULT nextval(
 
 
 --
--- TOC entry 3195 (class 2604 OID 16436)
+-- TOC entry 3194 (class 2604 OID 16589)
 -- Name: Exercises exercise_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -296,7 +298,7 @@ ALTER TABLE ONLY public."Exercises" ALTER COLUMN exercise_id SET DEFAULT nextval
 
 
 --
--- TOC entry 3197 (class 2604 OID 16454)
+-- TOC entry 3195 (class 2604 OID 16590)
 -- Name: Orders o_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -304,7 +306,7 @@ ALTER TABLE ONLY public."Orders" ALTER COLUMN o_id SET DEFAULT nextval('public."
 
 
 --
--- TOC entry 3196 (class 2604 OID 16445)
+-- TOC entry 3196 (class 2604 OID 16591)
 -- Name: Subscriptions s_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -312,7 +314,7 @@ ALTER TABLE ONLY public."Subscriptions" ALTER COLUMN s_id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 3193 (class 2604 OID 16412)
+-- TOC entry 3197 (class 2604 OID 16592)
 -- Name: Trainer trainer_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -320,18 +322,18 @@ ALTER TABLE ONLY public."Trainer" ALTER COLUMN trainer_id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 3357 (class 0 OID 16418)
--- Dependencies: 217
+-- TOC entry 3354 (class 0 OID 16558)
+-- Dependencies: 214
 -- Data for Name: Customer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Customer" (customer_id, c_name, c_dob, c_phone, c_weight, c_height, c_gender) FROM stdin;
+COPY public."Customer" (customer_id, c_firstname, c_dob, c_phone, c_weight, c_height, c_gender, c_lastname) FROM stdin;
 \.
 
 
 --
--- TOC entry 3359 (class 0 OID 16433)
--- Dependencies: 219
+-- TOC entry 3356 (class 0 OID 16564)
+-- Dependencies: 216
 -- Data for Name: Exercises; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -340,8 +342,8 @@ COPY public."Exercises" (exercise_id, e_name, e_difficulty, e_muscles) FROM stdi
 
 
 --
--- TOC entry 3363 (class 0 OID 16451)
--- Dependencies: 223
+-- TOC entry 3358 (class 0 OID 16570)
+-- Dependencies: 218
 -- Data for Name: Orders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -350,8 +352,8 @@ COPY public."Orders" (c_id, s_id, o_id, o_billingdate, o_startdate, o_enddate, o
 
 
 --
--- TOC entry 3361 (class 0 OID 16442)
--- Dependencies: 221
+-- TOC entry 3360 (class 0 OID 16576)
+-- Dependencies: 220
 -- Data for Name: Subscriptions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -360,20 +362,18 @@ COPY public."Subscriptions" (s_id, s_name, s_cost, s_facilities, s_duration) FRO
 
 
 --
--- TOC entry 3355 (class 0 OID 16409)
--- Dependencies: 215
+-- TOC entry 3362 (class 0 OID 16582)
+-- Dependencies: 222
 -- Data for Name: Trainer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Trainer" (trainer_id, t_name, t_dob, t_phone, t_gender, t_salary) FROM stdin;
-3	TTT	2001-06-24	8310802730	Female	11000
-4	Bozo	2001-06-24	8310802730	Male	9000
+COPY public."Trainer" (trainer_id, t_dob, t_phone, t_gender, t_salary, t_firstname, t_lastname) FROM stdin;
 \.
 
 
 --
 -- TOC entry 3379 (class 0 OID 0)
--- Dependencies: 216
+-- Dependencies: 215
 -- Name: Customer_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -382,7 +382,7 @@ SELECT pg_catalog.setval('public."Customer_customer_id_seq"', 1, false);
 
 --
 -- TOC entry 3380 (class 0 OID 0)
--- Dependencies: 218
+-- Dependencies: 217
 -- Name: Exercises_exercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -391,7 +391,7 @@ SELECT pg_catalog.setval('public."Exercises_exercise_id_seq"', 1, false);
 
 --
 -- TOC entry 3381 (class 0 OID 0)
--- Dependencies: 222
+-- Dependencies: 219
 -- Name: Orders_o_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -400,7 +400,7 @@ SELECT pg_catalog.setval('public."Orders_o_id_seq"', 1, false);
 
 --
 -- TOC entry 3382 (class 0 OID 0)
--- Dependencies: 220
+-- Dependencies: 221
 -- Name: Subscriptions_s_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -409,7 +409,7 @@ SELECT pg_catalog.setval('public."Subscriptions_s_id_seq"', 1, false);
 
 --
 -- TOC entry 3383 (class 0 OID 0)
--- Dependencies: 214
+-- Dependencies: 223
 -- Name: Trainer_trainer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -417,7 +417,7 @@ SELECT pg_catalog.setval('public."Trainer_trainer_id_seq"', 5, true);
 
 
 --
--- TOC entry 3203 (class 2606 OID 16425)
+-- TOC entry 3201 (class 2606 OID 16594)
 -- Name: Customer Customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -426,7 +426,7 @@ ALTER TABLE ONLY public."Customer"
 
 
 --
--- TOC entry 3205 (class 2606 OID 16440)
+-- TOC entry 3203 (class 2606 OID 16596)
 -- Name: Exercises Exercises_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -435,7 +435,7 @@ ALTER TABLE ONLY public."Exercises"
 
 
 --
--- TOC entry 3209 (class 2606 OID 16458)
+-- TOC entry 3205 (class 2606 OID 16598)
 -- Name: Orders Orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -444,7 +444,7 @@ ALTER TABLE ONLY public."Orders"
 
 
 --
--- TOC entry 3207 (class 2606 OID 16449)
+-- TOC entry 3207 (class 2606 OID 16600)
 -- Name: Subscriptions Subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -453,7 +453,7 @@ ALTER TABLE ONLY public."Subscriptions"
 
 
 --
--- TOC entry 3201 (class 2606 OID 16416)
+-- TOC entry 3209 (class 2606 OID 16602)
 -- Name: Trainer Trainer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -462,7 +462,7 @@ ALTER TABLE ONLY public."Trainer"
 
 
 --
--- TOC entry 3210 (class 2606 OID 16459)
+-- TOC entry 3210 (class 2606 OID 16603)
 -- Name: Orders cust_foreignKey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -480,7 +480,7 @@ COMMENT ON CONSTRAINT "cust_foreignKey" ON public."Orders" IS 'references custom
 
 
 --
--- TOC entry 3211 (class 2606 OID 16464)
+-- TOC entry 3211 (class 2606 OID 16608)
 -- Name: Orders sub_foreignKey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -497,7 +497,7 @@ ALTER TABLE ONLY public."Orders"
 COMMENT ON CONSTRAINT "sub_foreignKey" ON public."Orders" IS 'references subscription_id from subscription table';
 
 
--- Completed on 2023-07-24 20:19:31
+-- Completed on 2023-07-24 22:06:14
 
 --
 -- PostgreSQL database dump complete
