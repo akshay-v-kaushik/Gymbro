@@ -1,5 +1,5 @@
 import Router from 'express';
-import Task from '../NOSQL/task.model.js';
+import Task from '../Models/task.model.js';
 
 const router = Router();
 

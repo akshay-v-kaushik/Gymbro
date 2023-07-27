@@ -1,4 +1,4 @@
-import Pool from  '../SQL/db.js';
+import Pool from  '../SQL/postgresdb.js';
 import Router from 'express';
 
 
