@@ -1,4 +1,4 @@
-import Pool from  '../db.js';
+import Pool from  '../SQL/db.js';
 import Router from 'express';
 
 const pool = Pool;

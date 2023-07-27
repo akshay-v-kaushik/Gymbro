@@ -1,15 +1,8 @@
-import express from 'express';
-import Pool from  '../db.js';
+import Pool from  '../SQL/db.js';
 import Router from 'express';
 
-//const app = express();
 const pool = Pool;
 const router = Router();
-
-// app.use(express.json())
-// app.listen(5000, ()=>{
-//     console.log("Server started successfully!\n Server running on http://localhost:5000")
-// });
 
 // insert new row
 router.post("/", async(req, res) => {
